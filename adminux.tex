@@ -1,0 +1,957 @@
+\documentclass[12pt, titlepage,]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[English]{babel} %el idioma
+\usepackage{graphicx} %Para la subir imagenes
+\usepackage{parskip} %para q el salto de parrafo no tenga sangria
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{blindtext}
+\usepackage{xcolor}
+\usepackage[left=3cm,top=2.5cm,right=3cm,bottom=2.5cm]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Gokarna&Jaume_admlinux_2023},
+    pdfpagemode=FullScreen,
+    }
+
+
+%https://www.studocu.com/ca-es/document/universitat-politecnica-de-catalunya/administracio-de-sistemes-linux/adminux-memoria-seminari/23752028
+
+%https://www.studocu.com/ca-es/document/universitat-politecnica-de-catalunya/administracio-de-sistemes-linux/memoria/2430624
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  language=bash,
+  tabsize=3
+}
+
+
+
+%comienza el documento
+\begin{document}
+    \begin{titlepage}
+    \centering
+    {\includegraphics[width=0.6\textwidth]{images/bannerupc.png}\par}
+    {\bfseries\LARGE Universitat Politècnica De Catalunya\par}
+    \vspace{1cm} %separacion
+    {\scshape\large Escuela Técnica Superior de Ingeniería de Telecomunicación de Barcelona\par}
+    \vspace{0.7cm} %separacion
+    {\scshape\Huge ADMINISTRACIÓ DE SISTEMES LINUX \par}
+    \vspace{0.3cm}
+    {\includegraphics[width=0.7\textwidth]{images/linux-wallpaper-1.png}\par}
+    \vfill
+    {\Large Autors: \\}
+    {\Large Gokarna Dumre \& Jaume Quero \par}
+    \vspace{1cm}
+    {\small{\today}}
+    \end{titlepage}
+
+  %el index
+    \tableofcontents
+     \clearpage
+
+
+\section{Introducció}
+\large In this Seminar we are going to work in Linux basics. The main objective is to enhance our Linux knowledge to understand and to be capable to face Linux issues or challenges.
+\par
+
+\clearpage
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+\section{Chapter 2: Processes}
+
+\subsection{Exercise 2.1}
+In this exercise you will practice with process execution and signals. \par
+\begin{enumerate}
+    \item Open a pseudo-terminal and execute the command to see the manual of ps. Once in the manual of the ps command, search and count the number of times that appears the pattern ppid.
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.7\textwidth]{images/2.1.1.png}}
+    \end{figure}
+    
+  \item Within the same pseudo-terminal, execute ps with the appropriate parameters in order to show the PID, the tty and the command of the currently active processes that have been executed from the terminal. Do the same in the virtual console number two (/dev/tty2).
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.45\textwidth]{images/2.1.2b.png}}
+    {\includegraphics[width=0.44\textwidth]{images/2.1.2a.png}}
+    \end{figure}
+
+  \item Execute the following commands:\\
+ \textit{\color{gray}  \$ps -o pid,comm\\
+    \$ps -o pid,commd}
+
+   Comment the differences between the options: cmd and comm    
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.45\textwidth]{images/2.1.3.png}}
+    \end{figure}\\
+    \textit{\color{blue}The main difference is that \textbf{cmd} display the process ID and the command used to start the process, but  \textbf{comm} displays the process ID (pid) and the name of the command (comm) for each process. }
+    \clearpage  
+  \item Use the pstree command to see the process tree of the system. Which process is the father of pstree? and its grandfather? and who are the rest of its relatives? 
+
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.45\textwidth]{images/2.1.4.png}}
+    \end{figure}
+    \textit{\color{blue} The process father is \textbf{bash} and the grandfather is \textbf{xfce4-terminal} and the relatives are the rest.}
+    
+  \item Open a gnome-terminal and then open a new “TAB” typing ctrl+shit+t. Now open another gnome-terminal in a new window. Using pstree, you have to comment the relationships between the processes related to the terminals that we opened. 
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.75\textwidth]{images/2.1.5.png}}
+    \end{figure}
+    \\\textit{\color{blue}In each tab there is a different bash process.
+    In the first tab, the process is same as previous exercise. But in the second tab, the process is new. }
+    \clearpage
+    
+  \item Type ALT+F2 and then type xterm. Notice that this sequence opens another type of terminal. Repeat the same sequence to open a new xterm. Now, view the process tree and comment the differences with respect to the results of the previous case of gnome terminals. 
+  \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.50\textwidth]{images/2.1.6.png}}
+    \end{figure} \\
+   \textit{\color{blue} The situation is identical as in previous exercise, each xterm process is working in their individual bash.}
+    %2.1.7
+  \item Open three gnome-terminals. These will be noted as t1, t2 and t3. Then, type the following: \\
+  \textit{\color{gray}  t1\$ xeyes -geometry 200x200 -center red\\
+    t2\$ xclock \&}
+
+  
+  Comment what you see and also which is the type of execution (foreground/background) on each terminal.\\
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.55\textwidth]{images/2.1.7.png}}
+    \end{figure} \\
+  \textit{\color{blue} The first command is runing in foreground and the second one is being executed in background. As we can see in the image, we don't have any option to kill the eyes, but we can close, minimize or maximizee the clock.}    
+
+    
+    %2.1.8
+  \item For each process of the previous applications (xeyes and xclock), try to find out the PID, the execution state, the tty and the parent PID (PPID). To do so, use the third terminal (t3). 
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.60\textwidth]{images/2.1.8.png}}
+    \end{figure} \\
+    
+    \textit{\color{blue} Using the command that we saw in the beginning we obtain the PID, the State, the tty \& the PPID. }
+  
+  
+%2.1.9
+  \item Using the third terminal (t3), send a signal to terminate the process xeyes. 
+      \begin{lstlisting}[language=Bash]
+      kill -9 1115 #pid of xeyes
+     \end{lstlisting}
+
+  \item Type exit in the terminal t2. After that, find out who is the parent process of xclock. \\
+    \textit{\color{blue} Atfer killing t2 and doing ps we can't know tty of xclock process and now the ppid is different. }
+    
+  \item Now send a signal to kill the process xclock using its PID. 
+    \begin{lstlisting}[language=Bash]
+      kill -9 1111 #pid of xclock
+    \end{lstlisting}
+    
+%2.1.12
+  \item Execute an xclock in foreground in the first terminal t1. 
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.5\textwidth]{images/2.1.12.png}}
+    \end{figure} 
+%2.1.13
+  \item Send a signal from the third terminal to stop the process xclock and then send another signal to let this process to continue executing. Is the process executing in foreground or in background? Finally, send a signal to terminate the xclock process. 
+      \begin{lstlisting}[language=Bash]
+      kill -SIGSTOP 1235
+      kill -SIGCONT 1235
+      kill -SIGKILL 1235 #kill -9 1235
+    \end{lstlisting}
+
+  \item Using the job control, repeat the same steps as before, that is, executing xclock in foreground and then stopping, resuming and killing. List the commands and the key combinations you have used. 
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.44\textwidth]{images/2.1.14.png}}
+    \end{figure} 
+    
+%2.1.15
+  \item Execute the following commands in a pseudo-terminal:\\
+    Using the job control set the first xclock in foreground. Then place it back in background. Kill by name the two
+    xclock processes and then the xeyes processes. List the commands and the key combinations you have used.
+      \begin{lstlisting}[language=Bash]
+      xclock &
+      xclock &
+      xeyes &
+      xeyes &    
+      jobs
+      fg %1                 #xclock toforeground
+      bg %1                 #return to background
+      kill -s SIGTERM %1    #kill 1st xclock
+      kill -s SIGTERM %2    #kill 2n xclock
+      kill -s SIGTERM %3    #kill 1st xeyes
+      kill -s SIGTERM %4    #kill 2n xyes
+    \end{lstlisting}
+
+  \item Create a command line using execution of multiple commands that shows the processes launched from the terminal, then waits for 3 seconds and finally shows again the processes launched from the terminal.
+    \begin{lstlisting}[language=Bash]
+    ps; sleep 3; ps
+    \end{lstlisting}
+    
+%2.1.17
+  \item Using multiple commands execution (\&\&, $|  |$, etc.) create a command line that executes a ps command with an unsuccessful exit state and then as a result another ps command without parameters is executed. \\
+     \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.60\textwidth]{images/2.1.17.png}}
+    \end{figure} \\
+    
+%2.1.18
+  \item Discuss the results of the following multiple command executions: 
+      \begin{lstlisting}[language=Bash]
+      $ sleep || sleep || ls                
+      #1st & 2nd sleep are lacked of parameter (time). only ls is executed.
+      
+      $ sleep && sleep --help || ls && ps   
+      #sleep is same es previous command but now the 2nd sleep is correct but there is the and condition, so only ls and ps are executed. 
+      
+      $ sleep && sleep --help || ls || ps
+      #sleep is same es previous command but now only ls is executed because the condition is or.
+      \end{lstlisting}
+\end{enumerate}
+\clearpage
+
+
+ \subsection{Exercise 2.2}
+
+ This exercise deals with additional aspects about processes. 
+
+ \begin{enumerate}
+\item Create a script that asks for a number and displays the number multiplied by 7. Note. If you use the variable VAR to read, you can use \$[VAR*7] to display its multiplication. 
+      \begin{lstlisting}[language=Bash]    
+        #Script code
+        echo Introduce a number
+        read NUMERO
+        let "RESULT = $NUMERO*7"
+        echo $RESULT
+      \end{lstlisting}
+    
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/2.2.1.png}
+\end{figure}
+      
+      
+ \item Add signal managment to the previous script so that when the USR1 signal is received, the script prints the sentence “waiting operand”. Tips: use trap to capture USR1 and kill -USR1 PID to send this signal. 
+        \begin{lstlisting}[language=Bash]    
+        #Script Code
+        trap "echo waiting operand" USR1
+        echo Introduce a number
+        read NUMERO
+        let "RESULT = $NUMERO*7"
+        echo $RESULT
+        \end{lstlisting}
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/2.2.2a.png}
+    \includegraphics[width=0.8\textwidth]{images/2.2.2b.png}
+\end{figure}
+\clearpage
+        
+
+ \item Type a command to execute an xeyes application in background with “niceness” (priority) equal to 18. Then, type a command to view the command, the PID and the priority of the xeyes process that you have just executed.
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/2.2.3.png}
+\end{figure}
+ 
+\end{enumerate}
+
+\section{Chapter 3: Filesystem}
+\subsection{Exercise 3.1} 
+This exercise is related to the Linux filesystem and its basic permission system. 
+\begin{enumerate}
+
+\item  Open a terminal and navigate to your home directory (type cd ~ or simply cd). Then, type the command that using a relative path changes your location into the directory /etc. 
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/3.1.1.png}
+\end{figure}
+
+ \item  Type the command to return to home directory using an absolute path. 
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/3.1.2.png}
+\end{figure}
+\clearpage
+
+ \item  Once at your home directory, type a command to copy the file /etc/passwd in your working directory using only relative paths. 
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/3.1.3.png}
+\end{figure}
+ 
+\item  Create six directories named: dirA1, dirA2, dirB1, dirB2, dirC1 and dirC2 inside your home directory. You can do this with the command:
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/3.1.4.png}
+\end{figure}
+
+\item  Delete directories dirC2 and dirC1 using the wildcard “?”.
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/3.1.5.png}
+\end{figure}
+
+\item Create an empty file in your working directory called temp.
+    \begin{lstlisting}[language=Bash]    
+        #We use the command
+        touch temp
+        \end{lstlisting}
+
+
+\item  Type a command for viewing text to display the contents of the file, which obviously must be empty.
+\begin{lstlisting}[language=Bash]    
+        #We use the command
+        cat temp
+        \end{lstlisting}
+
+\item  Type a command to display the file metadata and properties (creation date, modification date, last access date, inode etc.).
+\begin{lstlisting}[language=Bash]    
+        #We use the command
+        stat temp
+        \end{lstlisting}
+
+\item  What kind of content is shown for the temp? and what kind basic file is?
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/3.1.9.png}
+\end{figure}
+\\
+\textit{\color{blue} Shows the file properties and we can see its a regular empty file.}
+
+\item  Change to your working directory. From there, type a command to try to copy the file temp to the /usr directory.
+What happened and why?
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/3.1.10.png}
+\end{figure}
+\\
+\textit{\color{blue} It can't be copied because its not in our personal area, we need to be superuser.}
+
+\item  Create a directory called practices inside your home. Inside practices, create two directories called with permission and  without permission. Then, remove your own permission to write into the directory without permission.
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/3.1.11.png}
+\end{figure}
+\clearpage
+
+\item  Try to copy the temp file to the directories with permission and without permission. Explain what has happened in each case and why.
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/3.1.12.png}
+\end{figure}
+
+
+\item Figure out which is the minimum set of permissions (read, write, execute) that the owner has to have to execute the following commands
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/3.1.13.png}
+\end{figure}
+\end{enumerate}
+
+\subsection{Exercise 3.2}
+This exercise presents practices about text files and special files. 
+\begin{enumerate}
+
+    \item  Create a file called orig.txt with the touch command and use the command ln to create a symbolic link to orig.txt called link.txt. Open the vi text editor and modify the file orig.txt entering some text. 
+    \begin{figure}[!h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/3.2.1.png}
+\end{figure}
+
+
+    \item Use the command cat to view link.txt. What can you observe? why?. 
+\begin{figure}[!h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/3.2.2.png}
+\end{figure} \\
+\textit{\color{blue} The things we write on orig.txt will be also at link.txt.}
+
+\clearpage
+    \item Repeat previous two steps but this time modifying first the link.txt file and then viewing the orig.txt file. Discuss the results. 
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/3.2.3.png}
+\end{figure}
+\\
+\textit{\color{blue} As before both files are linked so every thing we do in one, will apear on the other.}
+
+
+    \item Remove all permissions from orig.txt and try to modify the link.txt file. What happened? 
+     \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/3.2.4.png}
+\end{figure}
+\\
+\textit{\color{blue} We are not allowed to modify it.}
+
+    \item Give back the write permission to orig.txt. Then, try to remove the write permission to link.txt. Type ls -l and discuss the results. 
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/3.2.5.png}
+\end{figure}\\
+\textit{\color{blue} We can see that both files had modified its permissions.}
+
+\clearpage
+
+
+    \item Delete the file orig.txt and try to display the contents of link.txt with the cat command. Then, in a terminal (t1) edit orig.txt with the command:
+    \\
+    \textit{\color{blue} Did not happened anything because we had removed the file.}    
+
+    \item Use the command stat to see the number of links that orig.txt and link.txt have. 
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/3.2.7.png}
+\end{figure}
+
+    \item Now create a hard link for the orig.txt file called hard.txt. Then, using the command stat figure out the number of “Links” of orig.txt and hard.txt. 
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/3.2.8.png}
+\end{figure}
+
+    \item Delete the file orig.txt and try to modify with vi hard.txt. What happened? 
+    \\
+        \textit{\color{blue} The hard.txt could have been edited but orig.txt not.}  
+
+
+    \item Use the grep command to find all the information about the HTTP protocol present in the file /etc/services (remember that Unix commands are case-sensitive).
+     \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/3.2.10.png}
+\end{figure}
+\vspace{50mm}
+
+    \item Use the cut command over the file /etc/group to display the name of each group and its members (last field). 
+    % para codigos 
+\begin{lstlisting}[language=Bash]
+ cut -d ":" -f 1,4 /etc/group  
+\end{lstlisting}
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/3.2.11.png}
+\end{figure}
+
+    \item Create an empty file called text1.txt. Use text editor vi abn to introduce “abñ” in the file, save and exit. Type a command to figure out the type of content of the file. 
+        \begin{lstlisting}[language=Bash]
+        nano text1.txt
+        file text1.txt
+        #text1.txt: Unicode text, UTF-8 text
+        \end{lstlisting}
+
+\clearpage
+    \item Search in the Web the hexadecimal encoding of the letter “ñ” in ISO-8859-15 and UTF8. Use the command hexdump to view the content in hexadecimal of text1.txt. Which encoding have you found? \\
+    \textit{\color{blue} The character ñ is in UTF8, and the bits are inverted. The ñ its the b1c3 as we can see in the image.}
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/utf8.png}
+\end{figure}  
+
+
+
+
+
+    
+           
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/3.2.13.png}
+\end{figure}
+
+    
+
+    \item Find out what the character is “0x0a“, which also appears in the file. \\
+     \textit{\color{blue}0x0A is LF (Line feed, ”{\textbackslash n}“,  10 in decimal). We can see figure the UTF8 enconding of abñ and linebreak which is 0x0a. }  
+
+    \item Open the gedit text editor and type ”abñ“. Go to the menu and use the option “Save As” to save the file with the name text2.txt and “Line Ending” type Windows. Again with the hexdump examine the contents of the file. Find out which is the character encoded as “0x0d”.
+         \begin{lstlisting}[language=Bash]
+        hexdump text1.txt    #linux 
+        0000000 6261 b1c3 000a                         
+        0000005
+        
+        hexdump text2.txt   #windows
+        0000000 6261 b1c3 0a0d     #0d=Carriage Return,                    
+        0000006
+        
+        hexdump text3.txt   #classic mac
+        0000000 6261 b1c3 000d                         
+        0000005
+
+        \end{lstlisting}
+ 
+
+
+\\
+ \textit{\color{blue}The document control character has changed, since it is saved as Windows. And then on mac Line Ending also we can appreciate the change. And the 0x0d is referred to the carriage return.}  
+
+\clearpage
+    \item Explain the different types of line breaks for Unix (new Mac), Windows and classical Mac. 
+    \\
+    \textit{\color{blue}We see that unix and mac end in 0000005 and windows in 0000006, in
+unix(000a) we don't have a carry, on mac(000d) we don't have a newline and on
+windows(0a0d) we have both.}  
+
+
+    \item Open the gedit text editor and type ”abñ“. Go to the menu and use the option “Save As” to save the file with the name text3.txt and “Character Encoding” ISO-8859-15. Recheck the contents of the text file with hexdump and discuss the results.
+    \\
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/3.2.17.png}
+\end{figure}
+\begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/13.png}
+\end{figure} 
+    
+    \textit{\color{blue}In this case we can see also the inverted bits. The “ñ” appears as f1 and 0a is the newline.}
+    
+
+
+\end{enumerate}
+\clearpage
+
+\section{Chapter 4: File Descriptors}
+\subsection{Exercise 4.1}
+ In this exercise, we will practice with file redirections using several filter commands. 
+\begin{enumerate}
+    \item  Without using any text editor, you have to create a file called mylist.txt in your home directory that contains the recursive list of contents of the /etc directory. Hint: use ls -R. Then, “append” the sentence “CONTENTS OF ETC” at the end of the file mylist.txt. Finally, type a command to view the last 10 lines of mylist.txt to check that you obtained the expected result.
+    \begin{lstlisting}[language=Bash]
+    touch mylist.txt
+    sudo ls -R /etc >mylist.txt 
+    #redirect to file mylist the output of command ls -R /etc. sudo because permission needed.
+    echo CONTENTS OF ETC>>mylist.txt
+    #open file mylist in append mood and add CONTENTS OF ETC
+    tail -10 mylist.txt
+    #shows the last 10 lines of the file
+    \end{lstlisting}
+
+    \item  Without using any text editor, you have to “prepend” the sentence “CONTENTS OF ETC” at the beginning of mylist.txt. You can use auxiliary files but when you achieve the desired result, you have to remove them. Finally, check the result typing a command to view the first 10 lines of mylist.txt. 
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.425\textwidth]{images/4.1.2.png}}
+    \end{figure} 
+    \clearpage
+    
+    \item Type a command-line using pipes to count the number of files in the /bin directory. 
+    \begin{lstlisting}[language=Bash]
+    ls /bin |wc -w
+    \end{lstlisting}
+
+    \item Type a command-line using pipes that shows the list of the first 3 commands in the /bin directory. Then, type another command-line to show this list in reverse alphabetical order. Hint: use the commands ls, sort and head. 
+    \begin{lstlisting}[language=Bash]
+    ls /bin | sort | tail -3
+    ls /bin | sort -r | tail -3
+    #sort shows ordered list
+    #short -r is reverse ordered 
+    \end{lstlisting}
+
+    \item Type the command-lines that achieve the same results but using tail instead of head. 
+    \begin{lstlisting}[language=Bash]
+    ls /bin | sort | head -3
+    ls /bin | sort -r | head -3
+
+    \end{lstlisting}
+
+    
+    \item Type a command-line using pipes that shows the “number” of users and groups defined in the system (the sum of both). Hint: use the files /etc/passwd and /etc/group. 
+     \begin{lstlisting}[language=Bash]
+    cat /etc/passwd /etc/group | wc
+    \end{lstlisting}
+
+
+    \item Type a command line using pipes that shows one text line containing the PID and the PPID of the init process. 
+    \begin{lstlisting}[language=Bash]
+    ps -A -o comm,pid,ppid | head -2
+    \end{lstlisting}
+\end{enumerate}
+\clearpage
+
+\subsection{Exercise 4.2} 
+In this exercise, we are going to practice with the special files of pseudo-terminals (/dev/pts/X). 
+\begin{enumerate}
+    \item Open two pseudo-terminals. In one pseudo-terminal type a command-line to display the the content of the file /etc/passwd in the other terminal. 
+    \begin{lstlisting}[language=Bash]
+    #First we open 2 terminals, and with the command tty, we obtain the the virtul terminal number
+    tty
+    #1st terminal -->tty0
+    #2nd terminal --->tty1
+    # We want to display content of tty0 in tty1
+    #from tty0
+    sudo cat /etc/passwd > /dev/pts/tt1
+    \end{lstlisting}
+    
+
+    \item  You have to build a chat between two pseudo-terminals. That is to say, what you type in one pseudo-terminal must appear in the other pseudo-terminal and vice-versa. Hint: use cat and a redirection to the TTY file of the pseudo-terminal.
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.9\textwidth]{images/4.2.2.png}}
+    \end{figure} 
+\end{enumerate}
+    \clearpage
+    
+\subsection{Exercise 4.3} 
+Explain in detail what happens when you type the following command lines: 
+     \begin{lstlisting}[language=Bash]
+    mkfifo pipe1 pipe2   #creat 2 named pipe fifo(first_come_first_out)
+    echo -n x | cat - pipe1 > pipe2 &   #redirect to pipe2 from pipe1
+    cat <pipe2 > pipe1   #redirect to pipe1 all input of pipe2
+    \end{lstlisting}
+
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.9\textwidth]{images/4.3.png}}
+    \end{figure} 
+
+Do you see any output? Hint. Use top in another terminal to see CPU usage. \\
+{\textit{\color{blue} There is a loop of input \& output, for that reason the command cat is
+    always in the top.}}
+\clearpage
+ 
+\subsection{Exercise 4.4}
+In this exercise, we deal with inheritance of file descriptors. 
+\begin{enumerate}
+    \item Execute the command less /etc/passwd in two different pseudo-terminals. Then, from a third terminal list all processes that have opened /etc/ passwd and check their PIDs. Hint: use lsof. 
+    \begin{lstlisting}[language=Bash]
+    lsof | grep /etc/passwd
+    \end{lstlisting}
+    
+    \item Using the fuser command, kill all processes that have the file /etc/passwd open.
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.99\textwidth]{images/4.4.2.png}}
+    \end{figure} 
+
+
+\item  Open a pseudo-terminal (t1) and create an empty file called file.txt. Open file.txt only for reading with exec using fd=4. Create the following script called “openfilescript.sh”: 
+    \begin{lstlisting}[language=Bash]
+#!/bin/bash
+# Scriptname: openfilescript.sh
+lsof -a -p $$ -d0-10   
+echo "Hello"
+read "TEXT_LINE" <&4
+echo "$TEXT_LINE"
+    \end{lstlisting}
+    Redirect ”stdout“ permanently (with exec) to file.txt in t1 and explain what happens when you execute the previous script in this terminal. Explain what file descriptors has inherited the child bash that executes the commands of the script.
+
+    \textit{\color{blue} The aim is put in file.txt content of openfilescript, which shows the list of openfiles. To do that, first we create empty file, then we execute it with reading mode. After we creat bash script where we put the losf command. After that with exec, redirect the output. To see the output we have to do with another terminal, because in the same terminal, file.txt is the stdin \& stdout.}
+
+    \begin{figure}[htbp] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.95\textwidth]{images/4.4.3.png}}
+    \end{figure} 
+
+\vspace{50mm}
+    \item  From the second pseudo-terminal (t2) remove and create again file.txt. Then, execute “openfilescript.sh” in t1. Explain what happened and why.
+    
+       \textit{\color{blue}There is no output because althought the name if same, the file is different.}
+    
+\end{enumerate}
+\clearpage
+
+
+\section{Chapter 11: Shell Scripts}
+\subsection{Exercise 11.1}
+Describe in detail line by line the following script:
+\begin{lstlisting}[language=Bash]
+#!/bin/bash         #bash script, mandatory to start a .sh file with this command.
+# AUTHOR: teacher   
+# DATE: 4/10/2011
+# NAME: shellinfo.sh    
+# SYNOPSIS: shellinfo.sh [arg1 arg2 ... argN]  
+# DESCRIPTION: Provides information about the script.
+# HISTORY: First version
+echo "My PID is $$"                         #$$ is PID of the script.
+echo "The name of the script is $0"        #$0 is script name.
+echo "The number of parameters received is $#" #total number of parameters received.
+if [ $# -gt 0 ]; then   
+#If number of parametres is greater than 0, then its returns PID of each parameters.
+
+I=1
+for PARAM in $@
+do
+echo "Parameter \$$I is $PARAM"
+((I++))
+done
+fi
+\end{lstlisting}
+
+\begin{figure}[h] %h=here, t=top,b=bottom
+\centering
+{\includegraphics[width=0.60\textwidth]{images/11.1.png}}
+\end{figure} 
+
+\subsection{Exercise 11.2}
+Describe in detail line by line the following script:
+\begin{lstlisting}[language=Bash]
+#!/bin/bash
+# AUTHOR: teacher
+# DATE: 4/10/2011
+# NAME: clean.sh
+# SYNOPSIS: clean.sh (without parameters)
+# DESCRIPTION: Removes temporal files in your working directory:
+# HISTORY: First version
+echo "Really clean this directory?"   #Print the string
+read YORN                             #Save the answer/input parameters as YORN
+case $YORN in                         #treate YORN depending the input
+y|Y|s|S) ACTION=0;;                   #if YORN is yes/si then action is 0.
+n|N) ACTION=1;;                       #if YORN is No then action is 1.
+*) ACTION=2;;                         #if YORN is other value then action is 2.
+esac
+if [ $ACTION -eq 0 ]; then           #The action 0 removes the files and print Cleaned.
+rm -f \#* *~ .*~ *.bak .*.bak *.backup *.tmp .*.tmp core a.out
+echo "Cleaned"
+exit 0
+elif [ $ACTION -eq 1 ]; then        #The action 1 doesn't removes the files and print Not Cleaned.
+echo "Not Cleaned"
+exit 0
+elif [ $ACTION -eq 2 ]; then        #The action 2  print the input YORN isn't allowd answer.Bye bye.
+echo "$YORN is no an allowed answer. Bye bye"
+exit 1
+else
+echo "Uaggg!! Symptomatic Error"
+exit 2
+fi
+\end{lstlisting}
+
+\begin{figure}[h] %h=here, t=top,b=bottom
+\centering
+{\includegraphics[width=0.40\textwidth]{images/11.2.png}}
+\end{figure} 
+
+\subsection{Exercise 11.3}
+Develop a script that calculates the square root of two cathetus. Use a function with local variables
+and arithmetic expansions.
+\begin{lstlisting}[language=Bash]
+                        
+#!/bin/bash
+# AUTHOR: Jaume&Gokarna
+# DATE:`date` 
+#NAME:SquareRoot.sh
+echo "We are going to calculate Square root of 2 number"
+echo "Put the 1st Cathetus"
+read x
+echo "Put the 2nd Cathetus"
+read y
+
+#es_numero='^-?[0-9]+([.][0-9]+)?$'
+#if ! [[ $x =~ $es_numero ]] ; then
+#   echo "ERROR:Put number pls " >&amp;2; exit 1
+#fi
+#elif ! [[ $y =~ $es_numero ]] ; then
+#   echo "ERROR:Put number pls " >&amp;2; exit 1
+#fi
+#This segment of code was for the control of inputs  those weren't numbers.
+
+((sum = x*x+y*y))
+sqr=`echo "scale=4; sqrt($sum)" | bc`
+echo "The square root of $x and $y is: $sqr"
+
+\end{lstlisting}
+
+\begin{figure}[h] %h=here, t=top,b=bottom
+\centering
+{\includegraphics[width=0.70\textwidth]{images/11.3.png}}
+\end{figure} 
+\clearpage
+
+
+\subsection{Exercise 11.4}
+Describe in detail line by line the following script:
+\begin{lstlisting}[language=Bash]
+#!/bin/bash
+# AUTHOR: teacher
+# DATE: 4/10/2011
+# NAME: fill_terminal_procedure.sh
+# SYNOPSIS: fill_terminal arg
+# DESCRIPTION: Procedure to fill the terminal with a printable character
+# FUNCTION NAME: fill_terminal:
+# OUTPUT: none            #output variable
+# RETURN CODES: 0-success 1-bad-number-of-args 2-not-a-printable-character. #output codes
+# HISTORY: First version
+fill_terminal() {
+[ $# -ne 1 ] && return 1
+local HEXCHAR DECCHAR i j     #local variables
+HEXCHAR=$1                     #set first parameters as a local variable Hexchar.
+DECCHAR=‘printf "%d" 0x$HEXCHAR‘  #shows the decimal of HEXCHAR variables.
+if [ $DECCHAR -lt 33 -o $DECCHAR -gt 127 ]; then
+return 2               
+#if DECCHAR value is in out of range [33-127] shows output code 2.(non printable char.)
+fi
+[ -z "$COLUMNS" ] && COLUMNS=80   #if the variable COLUMNS is empty then the value is 80.
+[ -z "$LINES" ] && LINES=24        #if the variable COLUMNS is empty then the value is 24.
+((LINES-=2))                        
+for((i=0; i< COLUMNS; i++))         #The aim of this for, is to print HEXCHAR is all COLUMNS and LINES.
+do
+for ((j=0; j< LINES; j++))
+do
+printf "\x$HEXCHAR"
+done
+done
+return 0
+}
+
+
+#!/bin/bash
+# AUTHOR: teacher
+# DATE: 4/10/2011
+# NAME: procedure.sh
+# SYNOPSIS: procedure.sh arg
+# DESCRIPTION: Use the fill_terminal procedure
+# HISTORY: First version
+source fill_terminal_procedure.sh           #execute the fill_terminal_procedure.sh file
+fill_terminal $@                            #generate string with recieved parameters.
+case $? in
+0)
+exit 0 ;;                           #in case of 0 no parameters is nedded & the process is killed.
+1)
+echo "I need one argument (an hex value)" >&2 ; exit 1 ;;  #in case of 1, parameters are nedded, at least one.
+2)
+echo "Not printable character. Try one between 0x21 and 0x7F" >&2 ; exit 1 ;; #in case of 2, no char is printed.
+*)
+echo "Internal error" >&2 ; exit 1    #otherwise error.
+esac
+\end{lstlisting}
+
+\subsection{Exercise 11.5}
+The following script illustrates how to use functions recursively. Describe it in detail line by line.
+\begin{lstlisting}[language=Bash]  
+#!/bin/bash
+# AUTHOR: teacher
+# DATE: 4/10/2011
+# NAME: recfind.sh
+# SYNOPSIS: recfind.sh file_to_be_found
+# DESCRIPTION: Search recursively a file from the working directory
+# HISTORY: First version
+# Function: search_in_dir
+# Arguments: search directory #parameter used in the function
+function search_in_dir() {
+local fileitem          #local variable
+[ $DEBUG -eq 1 ] && echo "Entrant a $1"  #if DEBUG is 1, its shows the string indicating the entry in the directory.
+cd $1                                   #entry to the directory
+for fileitem in *                       #iteration of fileitem in all actual files and directories.
+do
+if [ -d $fileitem ]; then   #if fileitem is directory.
+search_in_dir $fileitem
+elif [ "$fileitem" = "$FILE_IN_SEARCH" ]; then # if fileitem is a file which we are looking for.
+echo ‘pwd‘/$fileitem     #shows the route where the fileitem is located.
+fi
+done
+[ $DEBUG -eq 1 ] && echo "Sortint de $1"
+cd ..
+}
+DEBUG=0 #0 because not needed more.
+if [ $# -ne 1 ]; then  #if the parameters number is different than 1 
+echo "Usage: $0 file_to_search"  #shows the variable 
+exit 1
+fi
+FILE_IN_SEARCH=$1 #we assigned the parameters to the FILE_IN_SEARCH 
+search_in_dir ‘pwd‘  #the function search_in_dir get the route of actual directory as a parameter
+\end{lstlisting}
+
+\subsection{Exercise 11.6}
+Using a function recursively, develop a script to calculate the factorial of a number. 
+\begin{lstlisting}[language=Bash]
+#!/bin/bash
+fact(){
+    i=$1        #save the input
+    if [ $i -eq 0 -o $i -eq 1 ]   #if input is 0 or 1, the result is 1.
+    then
+        echo 1
+    else
+        f=`expr $i \- 1`   #in other case, fact=n*(n-1).....*1
+        f=$(fact $f)
+        f=`expr $i \* $f`
+        echo $f
+    fi
+}
+read -p "Enter the number : " n
+if [ $n -lt 0 ]   #if input is lower than 0 return error
+then
+  echo "ERROR,NOT POSSIBLE FACTORIAL CALULATTION  OF  $n "
+else
+  echo "THE FACTORIAL OF $n : $(fact $n) "
+fi
+\end{lstlisting}
+\begin{figure}[h] %h=here, t=top,b=bottom
+\centering
+{\includegraphics[width=0.70\textwidth]{images/11.6.png}}
+\end{figure} 
+\vspace{34mm}
+\subsection{Exercise 11.7}
+In this exercise, we will practice with Regular Expressions (regex). 
+\begin{enumerate}
+    \item Create a file called re.txt and type a command-line that continuously ”follows“ this file to display text lines added to this file in the following way: Display only the text lines containing the word ”kernel“. From these lines, display only the first 10 characters. Try your command-line by writing from another pseudo-terminal some text lines to the file re.txt. Hint: use tail, grep and cut. Note. You must use the grep command with the option --line-buffered. This option prevents grep from using its internal buffer for text lines. If you do not use this option you will not see anything displayed on the terminal. 
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.85\textwidth]{images/11.7a.png}}
+    \end{figure} 
+    \clearpage
+    
+
+   \item Type a command-line that continuously ”follows“ the re.txt file to display the new text lines in this file in the following way: Display only the text lines ending with a word containing three vowels. Try your command-line by sending from another pseudo-terminal some text lines to re.txt.
+\end{enumerate}
+\begin{lstlisting}[language=Bash]
+tail -f re.txt | grep -E --line-buffered '.* .*[aeoiu].*[aeiou].*[aeiou]$'
+\end{lstlisting}
+    \begin{figure}[h] %h=here, t=top,b=bottom
+    \centering
+    {\includegraphics[width=0.90\textwidth]{images/11.7b.png}}
+    \end{figure} 
+\clearpage
+
+
+\end{document}
